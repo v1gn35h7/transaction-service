@@ -7,6 +7,19 @@ import (
 	"github.com/v1gn35h7/transaction-service/internal/logging"
 )
 
+func TestInvalidConfigPath(t *testing.T) {
+	logger := logging.Logger()
+	invalidConfigPath := "/opt/"
+	t.Run("Read invalid config file", func(t *testing.T) {
+		defer func() {
+			if r := recover(); r == nil {
+				t.Errorf("Expected panic due to invalid config path, but got none")
+			}
+		}()
+		ReadConfig(invalidConfigPath, logger)
+	})
+}
+
 func TestReadConfig(t *testing.T) {
 	logger := logging.Logger()
 	configPath := "..\\..\\"
@@ -20,19 +33,6 @@ func TestReadConfig(t *testing.T) {
 		ReadConfig(configPath, logger)
 	})
 
-}
-
-func TestInvalidConfigPath(t *testing.T) {
-	logger := logging.Logger()
-	invalidConfigPath := "invalid/path/to/config.yaml"
-	t.Run("Read invalid config file", func(t *testing.T) {
-		defer func() {
-			if r := recover(); r == nil {
-				t.Errorf("Expected panic due to invalid config path, but got none")
-			}
-		}()
-		ReadConfig(invalidConfigPath, logger)
-	})
 }
 
 func TestLoadPostgresqlConfig(t *testing.T) {
