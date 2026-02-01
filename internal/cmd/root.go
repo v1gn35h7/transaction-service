@@ -68,6 +68,13 @@ func bootStrapServer() {
 		os.Exit(1)
 	}
 
+	// Run DB migrations
+	if err := ds.RunMigrations(); err != nil {
+		logger.Error(err, "Failed to run database migrations")
+		os.Exit(1)
+	}
+	logger.Info("Database migrations completed successfully")
+
 	// Create CloudBees Train Booking Service instance
 	srvc := service.New(ds, logger)
 
@@ -79,7 +86,7 @@ func bootStrapServer() {
 	// Start Server
 	srv := &http.Server{
 		Handler: r,
-		Addr:    "127.0.0.1:" + port,
+		Addr:    "0.0.0.0:" + port,
 		// Good practice: enforce timeouts for servers you create!
 		WriteTimeout: 15 * time.Second,
 		ReadTimeout:  15 * time.Second,
@@ -88,7 +95,7 @@ func bootStrapServer() {
 	var g group.Group
 	{
 		g.Add(func() error {
-			logger.Info("transport", "HTTP", "addr", "localhost:8080")
+			logger.Info("transport", "HTTP", "addr", "localhost:80")
 			return srv.ListenAndServe()
 		}, func(error) {
 			srv.Close()

@@ -1,6 +1,7 @@
 package postgresql
 
 import (
+	"context"
 	"fmt"
 	"time"
 
@@ -8,6 +9,7 @@ import (
 	"github.com/jmoiron/sqlx"
 	_ "github.com/lib/pq"
 	"github.com/v1gn35h7/transaction-service/internal/config"
+	"github.com/v1gn35h7/transaction-service/internal/datastore/migrations/tables"
 )
 
 var sqlxConnect = sqlx.Connect
@@ -61,4 +63,15 @@ func generateDSN(conf *config.PostgresqlConfig) string {
 
 func (ds *Datastore) Close() error {
 	return ds.DB.Close()
+}
+
+func (ds *Datastore) RunMigrations() error {
+	ds.logger.Info("Running database migrations...")
+	client := tables.NewMigrationClient(ds.DB.DB)
+	ctx := context.Background()
+	_, err := client.Up(ctx)
+	if err != nil {
+		return err
+	}
+	return nil
 }
