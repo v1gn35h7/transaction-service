@@ -1,0 +1,12 @@
+ts:
+  version: "0.0.1-SNAPSHOT-1"
+  server:
+    port: 80
+
+postgresql:
+  host: "localhost"
+  port: 5432
+  username: "pismo"
+  dbname: "pismo"
+  sslmode: "disable"
+  password: "pismo4321"
