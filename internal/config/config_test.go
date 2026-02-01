@@ -37,7 +37,7 @@ func TestReadConfig(t *testing.T) {
 
 func TestLoadPostgresqlConfig(t *testing.T) {
 	logger := logging.Logger()
-	configPath := "..\\..\\"
+	configPath := "../../"
 	t.Run("Load Postgresql Config", func(t *testing.T) {
 		defer func() {
 			if r := recover(); r != nil {
