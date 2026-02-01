@@ -22,7 +22,7 @@ func TestInvalidConfigPath(t *testing.T) {
 
 func TestReadConfig(t *testing.T) {
 	logger := logging.Logger()
-	configPath := "..\\..\\"
+	configPath := "../../"
 
 	t.Run("Read valid config file", func(t *testing.T) {
 		defer func() {
