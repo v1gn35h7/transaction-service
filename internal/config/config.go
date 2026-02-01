@@ -23,6 +23,7 @@ type PostgresqlConfig struct {
 func ReadConfig(configPath string, logger zerologr.Logger) {
 	// Read config
 	logger.Info("Reading config from file", "confi_path", configPath)
+	viper.Reset()
 	viper.SetConfigName(constants.ConfigName) // name of config file (without extension)
 	viper.SetConfigType(constants.ConfigType) // REQUIRED if the config file does not have the extension in the name
 	viper.AddConfigPath(configPath)           // path to look for the config file in
