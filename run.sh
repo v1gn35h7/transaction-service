@@ -3,7 +3,7 @@
 # Configuration
 IMAGE_NAME=" ghcr.io/v1gn35h7/transaction-service/transaction-service"
 TAG="latest"
-CONTAINER_NAME="pismo_ts_ontainer"
+CONTAINER_NAME="pismo_ts_container"
 HOST_PORT=80
 CONTAINER_PORT=80
 

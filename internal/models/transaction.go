@@ -10,4 +10,5 @@ type Transaction struct {
 
 type TransactionsDatastore interface {
 	NewTransaction(accountID int64, operationTypeID int16, amount float64) (*Transaction, error)
+	ListTransactions(accountID int64) ([]Transaction, error)
 }

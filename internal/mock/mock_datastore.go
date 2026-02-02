@@ -55,6 +55,21 @@ func (mr *MockDatastoreMockRecorder) GetAccount(accountID any) *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAccount", reflect.TypeOf((*MockDatastore)(nil).GetAccount), accountID)
 }
 
+// ListTransactions mocks base method.
+func (m *MockDatastore) ListTransactions(accountID int64) ([]models.Transaction, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ListTransactions", accountID)
+	ret0, _ := ret[0].([]models.Transaction)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ListTransactions indicates an expected call of ListTransactions.
+func (mr *MockDatastoreMockRecorder) ListTransactions(accountID any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListTransactions", reflect.TypeOf((*MockDatastore)(nil).ListTransactions), accountID)
+}
+
 // NewAccount mocks base method.
 func (m *MockDatastore) NewAccount(documentNumber int64) (int64, error) {
 	m.ctrl.T.Helper()

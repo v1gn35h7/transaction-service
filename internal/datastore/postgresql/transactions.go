@@ -8,3 +8,23 @@ func (ds *Datastore) NewTransaction(account_id int64, operation_type_id int16, a
 	err := ds.DB.QueryRow(sqlStatement, account_id, operation_type_id, amount).Scan(&transaction.TransactionID, &transaction.AccountID, &transaction.OperationTypeID, &transaction.Amount, &transaction.EventDate)
 	return &transaction, err
 }
+
+func (ds *Datastore) ListTransactions(account_id int64) ([]models.Transaction, error) {
+	var transactions []models.Transaction
+	sqlStatement := `SELECT transaction_id, account_id, operation_type_id, amount, event_date FROM transactions WHERE account_id = $1;`
+	rows, err := ds.DB.Query(sqlStatement, account_id)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var transaction models.Transaction
+		err := rows.Scan(&transaction.TransactionID, &transaction.AccountID, &transaction.OperationTypeID, &transaction.Amount, &transaction.EventDate)
+		if err != nil {
+			return nil, err
+		}
+		transactions = append(transactions, transaction)
+	}
+	return transactions, nil
+}

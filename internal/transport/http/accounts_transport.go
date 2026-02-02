@@ -3,6 +3,7 @@ package http
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"net/http"
 	"strconv"
 
@@ -20,6 +21,22 @@ func decodeCreateAccountRequest(ctx context.Context, request *http.Request) (int
 		return nil, err
 	}
 
+	if req.DocumentNumber == 0 {
+		return nil, errors.New("document_number is required")
+	}
+
+	if req.DocumentNumber < 0 {
+		return nil, errors.New("document_number must be positive")
+	}
+
+	if req.DocumentNumber > 99999999999 {
+		return nil, errors.New("document_number is too large")
+	}
+
+	if req.DocumentNumber < 1000000000 {
+		return nil, errors.New("document_number is too small")
+	}
+
 	return req, nil
 }
 
@@ -31,7 +48,10 @@ func decodeGetAccountRequest(ctx context.Context, request *http.Request) (interf
 	var req GetAccountRequest
 
 	vars := mux.Vars(request)
-	id := vars["accountID"]
+	id, ok := vars["accountID"]
+	if !ok {
+		return nil, errors.New("Bad route")
+	}
 	accountID, err := strconv.Atoi(id)
 	if err != nil {
 		return nil, err

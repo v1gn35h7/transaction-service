@@ -8,10 +8,10 @@ import (
 )
 
 func init() {
-	goose.AddMigrationContext(Up0002, Down0002)
+	goose.AddMigrationContext(Up0001, Down0001)
 }
 
-func Up0002(ctx context.Context, tx *sql.Tx) error {
+func Up0001(ctx context.Context, tx *sql.Tx) error {
 	_, err := tx.ExecContext(ctx, `
 	CREATE TABLE IF NOT EXISTS accounts (
 		account_id SERIAL PRIMARY KEY,
@@ -21,7 +21,7 @@ func Up0002(ctx context.Context, tx *sql.Tx) error {
 	return err
 }
 
-func Down0002(ctx context.Context, tx *sql.Tx) error {
+func Down0001(ctx context.Context, tx *sql.Tx) error {
 	_, err := tx.ExecContext(ctx, `DROP TABLE IF EXISTS accounts;`)
 	return err
 }

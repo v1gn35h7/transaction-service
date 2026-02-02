@@ -9,6 +9,7 @@ type coreEndpoints struct {
 	createAccountEndpoint     endpoint.Endpoint
 	getAccountEndpoint        endpoint.Endpoint
 	createTransactionEndpoint endpoint.Endpoint
+	listTransactionsEndpoint  endpoint.Endpoint
 }
 
 func MakeEndpoints(srvc service.Service) coreEndpoints {
@@ -16,5 +17,6 @@ func MakeEndpoints(srvc service.Service) coreEndpoints {
 		createAccountEndpoint:     MakeCreateAccountEndpoint(srvc),
 		getAccountEndpoint:        MakeGetAccountEndpoint(srvc),
 		createTransactionEndpoint: MakeCreateTransactionEndpoint(srvc),
+		listTransactionsEndpoint:  MakeListTransactionsEndpoint(srvc),
 	}
 }
