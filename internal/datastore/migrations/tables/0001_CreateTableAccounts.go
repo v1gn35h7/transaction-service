@@ -15,7 +15,7 @@ func Up0001(ctx context.Context, tx *sql.Tx) error {
 	_, err := tx.ExecContext(ctx, `
 	CREATE TABLE IF NOT EXISTS accounts (
 		account_id SERIAL PRIMARY KEY,
-		document_number BIGINT NOT NULL
+		document_number BIGINT NOT NULL UNIQUE 
 	);
 	`)
 	return err

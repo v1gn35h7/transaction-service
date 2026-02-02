@@ -21,10 +21,6 @@ func decodeCreateTransactionRequest(ctx context.Context, request *http.Request) 
 		return nil, err
 	}
 
-	if req.Amount == 0 {
-		return nil, errors.New("amount is required")
-	}
-
 	if req.AccountID <= 0 {
 		return nil, errors.New("account_id must be positive")
 	}
@@ -39,6 +35,14 @@ func decodeCreateTransactionRequest(ctx context.Context, request *http.Request) 
 
 	if req.OperationTypeID > 4 {
 		return nil, errors.New("invalid operation_type_id")
+	}
+
+	if req.OperationTypeID == 4 && req.Amount < 0 {
+		return nil, errors.New("amount must be positive for credit payment operation")
+	}
+
+	if (req.OperationTypeID == 1 || req.OperationTypeID == 3) && req.Amount > 0 {
+		return nil, errors.New("amount must be negative for debit payment operation")
 	}
 
 	return req, nil
